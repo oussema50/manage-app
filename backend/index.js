@@ -3,7 +3,8 @@ const dotenv = require("dotenv");
 const passport = require('passport');
 const globalError = require('./middlewares/errorMiddleware');
 const app = express();
-const userRouter = require('./router/userRouter')
+const authRouter = require('./router/authRouter')
+const ApiError = require('./utils/ApiError')
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
@@ -11,12 +12,15 @@ app.use(express.json());
 
 app.use(passport.initialize());
 //Router
-app.get('/',(req,res,next)=>{
-    console.log('hello project')
-    
+app.use('/api/v1/auth',authRouter)
+
+app.use('*',(req,res,next)=>{
+    next(new ApiError(`can't find this URL: ${req.originalUrl}`,400));
 })
-app.use('/api/v1/auth',userRouter)
+//handle global error
 app.use(globalError)
+
+
 app.listen(PORT,()=>{
     console.log(`server listening on ${PORT}`);
 })

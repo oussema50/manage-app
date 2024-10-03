@@ -17,10 +17,8 @@ exports.registerUser = asyncHandler(async(req,res,next)=>{
 // @desc     login A User
 // @route    POST /login
 // @access   Public
-exports.loginUser = async (req, res) => {
+exports.loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    try {
-        console.log(req.body)
       const user = await User.findOne({ where: { email:email } });
       if (!user) {
         return res.status(401).json({ message: 'Invalid credentials' });
@@ -31,29 +29,13 @@ exports.loginUser = async (req, res) => {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
   
-      // Create JWT payload
       const payload = { id: user.id, role: user.role };
   
-      // Sign token
       const token = jwt.sign(payload, process.env.JWT_SECRET, {
         expiresIn: '1h',
       });
   
       res.json({ token });
-    } catch (err) {
-        console.log(err)
-      res.status(500).json({ message:err });
-    }
-}
-
-// @desc     login An Employee
-// @route    GET /employee/:id
-// @access   Private
-
-exports.getUserById = asyncHandler(async(req,res,next)=>{
-    const {id} = req.params;
-    const user = await User.findByPk(id, {
-        attributes: ['firstname', 'lastname', 'email','age','role'],  
-      });
-    res.status(200).json({data:user})
+    
 })
+
