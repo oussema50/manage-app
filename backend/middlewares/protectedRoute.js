@@ -1,5 +1,4 @@
 exports.isRH = (req, res, next) => {
-  console.log(req.user)
     if (req.user.role === 'rh') {
       return next();
     } else {

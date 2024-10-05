@@ -31,7 +31,8 @@ const User = sequelize.define('User', {
         allowNull: false, 
       },
     role: {
-        type: DataTypes.ENUM('rh', 'employee'), // Define possible values for role
+        type: DataTypes.ENUM('rh', 'employee'),
+        defaultValue: 'employee',
         allowNull: false,
       },
       
@@ -44,6 +45,5 @@ const User = sequelize.define('User', {
 
   (async () => {
     await sequelize.sync({ force: false });
-    // Code here
   })();
 module.exports = User;
