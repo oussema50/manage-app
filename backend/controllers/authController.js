@@ -35,7 +35,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
         expiresIn: '1h',
       });
   
-      res.json({ token });
+      res.json({ token,data:{firstName:user.firstName,lastName:user.lastName,email:user.email,age:user.age,} });
     
 })
 
