@@ -8,7 +8,6 @@ const globalError = (err,req,res,next)=>{
     sendErrorForDev(err,res)
 
    }
-
 }
 
 const sendErrorForDev = (err,res)=>{
